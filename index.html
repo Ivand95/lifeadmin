@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeAdmin - Prototipo Funcional v4.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --border: #e2e8f0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 100%);
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100dvh;
+            box-sizing: border-box;
+        }
+
+        .viewport-wrapper {
+            width: 100%;
+            max-width: 420px;
+            max-height: calc(100dvh - 40px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            max-height: calc(100dvh - 40px);
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 9 / 19.5;
+        }
+
+        .status-bar {
+            background: linear-gradient(90deg, #1e293b 0%, #2d3748 100%);
+            color: white;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* LOGIN SCREEN */
+        .screen-login {
+            background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+            color: white;
+            justify-content: space-between;
+            padding: 0;
+        }
+
+        .login-header {
+            text-align: center;
+            padding: 40px 24px 20px;
+        }
+
+        .login-logo {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+
+        .login-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .login-header p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        .login-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px;
+            gap: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-login {
+            padding: 13px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .login-footer {
+            padding: 16px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        .login-footer span {
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* DASHBOARD SCREEN */
+        .screen-dashboard {
+            background: var(--bg-light);
+            flex-direction: column;
+        }
+
+        .header-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a67d8 100%);
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-bar h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .dashboard-content {
+            padding: 14px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .greeting h2 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+            font-weight: 800;
+        }
+
+        .greeting p {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 14px;
+            border-radius: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 14px 0 8px 0;
+        }
+
+        .task-item {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--border);
+        }
+
+        .task-item:hover {
+            transform: translateX(4px);
+            border-left-color: var(--primary);
+        }
+
+        .task-item.completed {
+            opacity: 0.65;
+            background: rgba(16, 185, 129, 0.05);
+            border-left-color: var(--secondary);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .task-checkbox:hover {
+            border-color: var(--primary);
+        }
+
+        .task-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .task-meta {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .task-priority {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            margin-left: 4px;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+        }
+
+        /* CHAT SCREEN */
+        .screen-chat {
+            background: var(--bg-light);
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .chat-header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 10px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .quick-action {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .quick-action svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 10px 13px;
+            border-radius: 13px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+        }
+
+        .message.ia .message-bubble {
+            background: white;
+            color: var(--text-dark);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input-area {
+            background: white;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            background: var(--bg-light);
+            border-radius: 18px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* REMINDER WIDGET (dashboard) */
+        .reminder-widget {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 6px 20px rgba(245,158,11,0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .reminder-widget::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+        .reminder-widget::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; right: 20px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .reminder-widget-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .reminder-widget-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .reminder-widget-body { flex: 1; }
+        .reminder-widget-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2px;
+        }
+        .reminder-widget-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.2;
+        }
+        .reminder-widget-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .reminder-widget-time-block {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .reminder-widget-time {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+        .reminder-widget-badge {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .reminder-widget-done-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1.5px solid rgba(255,255,255,0.5);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .reminder-widget-done-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+        .reminder-widget-empty {
+            background: var(--bg-light);
+            border-radius: 14px;
+            padding: 16px 14px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.82rem;
+            border: 1.5px dashed var(--border);
+            margin-bottom: 12px;
+        }
+
+        /* SUBSCRIPTION COMPONENT */
+        .subscription-section {
+            background: white; border-radius: 16px; padding: 16px;
+            margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .subscription-header-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .subscription-title-block { display: flex; align-items: center; gap: 8px; }
+        .subscription-icon {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: rgba(99,102,241,0.1); display: flex;
+            align-items: center; justify-content: center;
+        }
+        .subscription-label { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
+        .subscription-active-badge {
+            font-size: 0.62rem; font-weight: 700; padding: 3px 8px;
+            border-radius: 20px; background: rgba(16,185,129,0.12);
+            color: var(--secondary); text-transform: uppercase;
+        }
+
+        .plan-cards { display: flex; flex-direction: column; gap: 8px; }
+
+        .plan-card {
+            border: 2px solid var(--border); border-radius: 12px;
+            padding: 12px 14px; cursor: pointer; transition: all 0.25s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .plan-card.selected {
+            border-color: var(--primary);
+            background: rgba(99,102,241,0.04);
+        }
+        .plan-radio {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid var(--border); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .plan-card.selected .plan-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+        .plan-radio-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: white; display: none;
+        }
+        .plan-card.selected .plan-radio-dot { display: block; }
+
+        .plan-info { flex: 1; }
+        .plan-name { font-size: 0.85rem; font-weight: 700; color: var(--text-dark); }
+        .plan-desc { font-size: 0.72rem; color: var(--text-gray); margin-top: 1px; }
+        .plan-price { font-size: 0.9rem; font-weight: 800; color: var(--primary); }
+
+        .plan-popular {
+            font-size: 0.58rem; font-weight: 700; padding: 2px 6px;
+            border-radius: 20px; background: rgba(245,158,11,0.15);
+            color: var(--accent); text-transform: uppercase; margin-left: 4px;
+        }
+
+        .btn-change-plan {
+            width: 100%; margin-top: 12px; padding: 11px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 10px;
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-change-plan:hover { opacity: 0.9; }
+        .btn-change-plan:disabled {
+            background: var(--border); color: var(--text-gray); cursor: default;
+        }
+
+        /* CARDS COMPONENT */
+        .cards-section {
+            background: white; border-radius: 16px; padding: 16px;
+            margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .cards-section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .cards-title-block { display: flex; align-items: center; gap: 8px; }
+        .cards-icon {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: rgba(16,185,129,0.1); display: flex;
+            align-items: center; justify-content: center;
+        }
+        .cards-label { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
+        .btn-add-card {
+            font-size: 0.72rem; font-weight: 700; padding: 5px 10px;
+            border-radius: 8px; background: rgba(99,102,241,0.1);
+            color: var(--primary); border: none; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-add-card:hover { background: rgba(99,102,241,0.18); }
+
+        .credit-card {
+            border-radius: 14px; padding: 16px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white; margin-bottom: 10px; position: relative;
+            cursor: pointer; transition: all 0.25s;
+            border: 2px solid transparent;
+        }
+        .credit-card.default-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        .credit-card.selected-card { border-color: white; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+
+        .card-chip {
+            width: 28px; height: 20px; border-radius: 4px;
+            background: rgba(255,255,255,0.3); margin-bottom: 12px;
+        }
+        .card-number { font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 10px; opacity: 0.9; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .card-holder { font-size: 0.72rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-holder-name { font-size: 0.82rem; font-weight: 600; }
+        .card-expiry-label { font-size: 0.6rem; opacity: 0.7; text-align: right; }
+        .card-expiry { font-size: 0.82rem; font-weight: 600; text-align: right; }
+        .card-network { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.5px; opacity: 0.9; }
+
+        .card-default-badge {
+            position: absolute; top: 10px; right: 10px;
+            font-size: 0.58rem; font-weight: 700; padding: 2px 7px;
+            border-radius: 20px; background: rgba(255,255,255,0.25);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .card-actions {
+            display: flex; gap: 6px; margin-top: 6px;
+        }
+        .btn-card-action {
+            flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
+            font-size: 0.72rem; font-weight: 600; cursor: pointer;
+            background: white; color: var(--text-dark); transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 4px;
+        }
+        .btn-card-action:hover { background: var(--bg-light); }
+        .btn-card-action.danger { color: var(--danger); border-color: rgba(239,68,68,0.2); }
+        .btn-card-action.danger:hover { background: rgba(239,68,68,0.06); }
+
+        .add-card-form {
+            display: none; flex-direction: column; gap: 8px;
+            border: 1px dashed var(--border); border-radius: 12px;
+            padding: 14px; margin-top: 4px;
+        }
+        .add-card-form.open { display: flex; }
+        .card-input-row { display: flex; gap: 8px; }
+        .card-input {
+            border: 1px solid var(--border); border-radius: 9px;
+            padding: 9px 11px; font-size: 0.82rem; outline: none;
+            font-family: inherit; color: var(--text-dark); width: 100%;
+        }
+        .card-input:focus { border-color: var(--primary); }
+        .btn-save-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);
+            color: white; border: none; border-radius: 9px;
+            padding: 10px; font-weight: 700; font-size: 0.82rem;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-cancel-card {
+            background: var(--bg-light); color: var(--text-gray); border: none;
+            border-radius: 9px; padding: 10px; font-weight: 600;
+            font-size: 0.82rem; cursor: pointer;
+        }
+
+        /* PROFILE SCREEN */
+        .screen-profile {
+            background: var(--bg-light);
+            flex-direction: column;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .profile-header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .profile-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+
+        .profile-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .profile-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .profile-email {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-top: 2px;
+        }
+
+        .profile-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 16px 0 8px 4px;
+        }
+
+        .profile-menu-item {
+            background: white;
+            border-radius: 12px;
+            padding: 13px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transition: all 0.2s ease;
+        }
+
+        .profile-menu-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .profile-menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-menu-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .profile-menu-text {
+            flex: 1;
+        }
+
+        .profile-menu-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .profile-menu-sub {
+            font-size: 0.72rem;
+            color: var(--text-gray);
+            margin-top: 1px;
+        }
+
+        .profile-menu-arrow {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .profile-logout {
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 12px;
+            padding: 13px 14px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .profile-logout:hover {
+            background: rgba(239, 68, 68, 0.14);
+        }
+
+        .profile-logout span {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--danger);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.3);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport-wrapper">
+        <div class="app-container">
+            <div class="status-bar">
+                <span id="time">9:41</span>
+                <span>●●●●●</span>
+            </div>
+
+            <!-- LOGIN -->
+            <div class="screen screen-login active" data-screen="login">
+                <div class="login-header">
+                    <div class="login-logo">🎯</div>
+                    <h1>LifeAdmin</h1>
+                    <p>Tu asistente personal inteligente</p>
+                </div>
+                <div class="login-form">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="Correo electrónico" value="maria@example.com">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Contraseña" value="password123">
+                    </div>
+                    <button class="btn-login" id="btnLogin">Iniciar sesión</button>
+                </div>
+                <div class="login-footer">
+                    ¿No tienes cuenta? <span onclick="alert('Regístrate pronto')">Regístrate</span>
+                </div>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div class="screen screen-dashboard" data-screen="dashboard">
+                <div class="header-bar">
+                    <h1>LifeAdmin</h1>
+                    <div style="font-size: 1.2rem;">⚙️</div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="greeting">
+                        <h2>¡Hola, María! 👋</h2>
+                        <p id="dateDisplay">Martes, 10 de marzo</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card" onclick="goToScreen('tasks')">
+                            <div class="stat-number" id="taskCount">5</div>
+                            <div class="stat-label">Tareas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Citas hoy</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">🔔 Próximo recordatorio</div>
+                    <div id="dashboardReminder"></div>
+
+                    <div class="section-title">Próximas tareas</div>
+                    <div id="dashboardTasks"></div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item active" onclick="goToScreen('dashboard')">
+                        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Inicio</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('tasks')">
+                        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Tareas</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('chat')">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('profile')">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Perfil</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TASKS -->
+            <div class="screen screen-tasks" data-screen="tasks">
+                <div class="header-bar" style="background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);">
+                    <h1>Mis Tareas</h1>
+                </div>
+                <div style="display: flex; background: white; border-bottom: 1px solid var(--border);">
+                    <div onclick="switchTab('pending')" style="flex: 1; padding: 12px; text-align: center; border-bottom: 3px solid transparent; cursor: pointer; color: var(--text-gray); font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease;" class="tab-pending active">Pendientes</div>
+                    <div onclick="switchTab('completed')" style="flex: 1; padding: 12px; text-align: center; border-bottom: 3px solid transparent; cursor: pointer; color: var(--text-gray); font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease;" class="tab-completed">Completadas</div>
+                </div>
+                <div style="padding: 12px; flex: 1; overflow-y: auto;" id="tasksList"></div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')">
+                        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Inicio</span>
+                    </div>
+                    <div class="nav-item active" onclick="goToScreen('tasks')">
+                        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Tareas</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('chat')">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('profile')">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Perfil</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAT -->
+            <div class="screen screen-chat" data-screen="chat">
+                <div class="chat-header">
+                    <h1>Asistente IA</h1>
+                    <div style="font-size: 1.2rem;">⚙️</div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-action" onclick="quickAction('Crear tarea')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14M5 12h14"/></svg>
+                        Tarea
+                    </button>
+                    <button class="quick-action" onclick="quickAction('Agendar cita')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                        Cita
+                    </button>
+                    <button class="quick-action" onclick="quickAction('Pagar factura')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="20" height="12" rx="2"/><path d="M2 10h20M17 15h.01" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                        Pagar
+                    </button>
+                    <button class="quick-action" onclick="quickAction('Hacer compra')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="9" cy="20" r="1" fill="currentColor"/><circle cx="20" cy="20" r="1" fill="currentColor"/></svg>
+                        Compra
+                    </button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages"></div>
+
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Escribe aquí...">
+                    </div>
+                    <button class="send-btn" onclick="sendChatMessage()">↲</button>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')">
+                        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Inicio</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('tasks')">
+                        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Tareas</span>
+                    </div>
+                    <div class="nav-item active" onclick="goToScreen('chat')">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('profile')">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Perfil</span>
+                    </div>
+                </div>
+            </div>
+            <!-- PROFILE -->
+            <div class="screen screen-profile" data-screen="profile">
+                <div class="profile-header">
+                    <h1>Mi Perfil</h1>
+                    <div style="font-size: 1.2rem;">⚙️</div>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar">M</div>
+                        <div class="profile-name">María García</div>
+                        <div class="profile-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aac7cbd8c3cbeacfd2cbc7dac6cf84c9c5c7">[email&#160;protected]</a></div>
+                    </div>
+
+                    <div class="profile-section-title">Cuenta</div>
+                    <div class="profile-menu-item">
+                        <div class="profile-menu-icon" style="background: rgba(99,102,241,0.1); color: var(--primary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                        </div>
+                        <div class="profile-menu-text">
+                            <div class="profile-menu-label">Información personal</div>
+                            <div class="profile-menu-sub">Nombre, email, teléfono</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+                    <div class="profile-menu-item">
+                        <div class="profile-menu-icon" style="background: rgba(16,185,129,0.1); color: var(--secondary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </div>
+                        <div class="profile-menu-text">
+                            <div class="profile-menu-label">Seguridad</div>
+                            <div class="profile-menu-sub">Contraseña y acceso</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+
+                    <div class="profile-section-title">Preferencias</div>
+                    <div class="profile-menu-item">
+                        <div class="profile-menu-icon" style="background: rgba(245,158,11,0.1); color: var(--accent);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        </div>
+                        <div class="profile-menu-text">
+                            <div class="profile-menu-label">Notificaciones</div>
+                            <div class="profile-menu-sub">Alertas y recordatorios</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+                    <div class="profile-menu-item">
+                        <div class="profile-menu-icon" style="background: rgba(99,102,241,0.1); color: var(--primary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 3V1m0 22v-2"/></svg>
+                        </div>
+                        <div class="profile-menu-text">
+                            <div class="profile-menu-label">Apariencia</div>
+                            <div class="profile-menu-sub">Tema claro / oscuro</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+
+                    <div class="profile-section-title">Soporte</div>
+                    <div class="profile-menu-item">
+                        <div class="profile-menu-icon" style="background: rgba(100,116,139,0.1); color: var(--text-gray);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+                        </div>
+                        <div class="profile-menu-text">
+                            <div class="profile-menu-label">Ayuda y soporte</div>
+                            <div class="profile-menu-sub">FAQs y contacto</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+
+                    <div class="profile-logout" onclick="logout()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                        <span>Cerrar sesión</span>
+                    </div>
+
+                    <!-- SUBSCRIPTION SECTION -->
+                    <div class="profile-section-title" style="margin-top:20px;">Plan de suscripción</div>
+                    <div class="subscription-section">
+                        <div class="subscription-header-row">
+                            <div class="subscription-title-block">
+                                <div class="subscription-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                                <div class="subscription-label">Plan activo</div>
+                            </div>
+                            <div class="subscription-active-badge">● Activo</div>
+                        </div>
+                        <div class="plan-cards" id="planCards">
+                            <div class="plan-card" onclick="selectPlan(0)" id="plan-0">
+                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Básico</div>
+                                    <div class="plan-desc">5 tareas · 3 recordatorios</div>
+                                </div>
+                                <div class="plan-price">Gratis</div>
+                            </div>
+                            <div class="plan-card selected" onclick="selectPlan(1)" id="plan-1">
+                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Pro <span class="plan-popular">Popular</span></div>
+                                    <div class="plan-desc">Ilimitado · IA incluida</div>
+                                </div>
+                                <div class="plan-price">$9.99/mes</div>
+                            </div>
+                            <div class="plan-card" onclick="selectPlan(2)" id="plan-2">
+                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Business</div>
+                                    <div class="plan-desc">Equipos · Analytics</div>
+                                </div>
+                                <div class="plan-price">$24.99/mes</div>
+                            </div>
+                        </div>
+                        <button class="btn-change-plan" id="btnChangePlan" onclick="changePlan()" disabled>Plan actual</button>
+                    </div>
+
+                    <!-- CARDS SECTION -->
+                    <div class="profile-section-title">Métodos de pago</div>
+                    <div class="cards-section">
+                        <div class="cards-section-header">
+                            <div class="cards-title-block">
+                                <div class="cards-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                                </div>
+                                <div class="cards-label">Mis tarjetas</div>
+                            </div>
+                            <button class="btn-add-card" onclick="toggleAddCardForm()">+ Agregar</button>
+                        </div>
+                        <div id="cardsList"></div>
+                        <div class="add-card-form" id="addCardForm">
+                            <input class="card-input" id="newCardNumber" placeholder="Número de tarjeta" maxlength="19" oninput="formatCardNumber(this)">
+                            <div class="card-input-row">
+                                <input class="card-input" id="newCardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)">
+                                <input class="card-input" id="newCardCVV" placeholder="CVV" maxlength="3" type="password">
+                            </div>
+                            <input class="card-input" id="newCardName" placeholder="Nombre en la tarjeta">
+                            <div class="card-input-row">
+                                <button class="btn-cancel-card" onclick="toggleAddCardForm()">Cancelar</button>
+                                <button class="btn-save-card" onclick="saveCard()">Guardar tarjeta</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')">
+                        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Inicio</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('tasks')">
+                        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Tareas</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('chat')">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item" onclick="goToScreen('chat')">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item active" onclick="goToScreen('profile')">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                        <span>Perfil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // APP STATE
+        let appState = {
+            user: null,
+            currentScreen: 'login',
+            tasks: [
+                { id: 1, title: 'Enviar reporte al jefe', date: 'Hoy, 2:30 PM', priority: 'high', completed: false },
+                { id: 2, title: 'Comprar ingredientes', date: 'Mañana', priority: 'medium', completed: false },
+                { id: 3, title: 'Llamar al dentista', date: 'Próxima semana', priority: 'low', completed: false },
+                { id: 4, title: 'Reunión con equipo', date: 'Hoy, 3:00 PM', priority: 'high', completed: false },
+                { id: 5, title: 'Pagar facturas', date: 'Mañana', priority: 'medium', completed: false }
+            ],
+            reminders: [
+                { id: 1, title: 'Tomar medicamento', time: '08:00 AM', day: 'hoy', done: false },
+                { id: 2, title: 'Llamar a mamá', time: '06:00 PM', day: 'hoy', done: false },
+                { id: 3, title: 'Revisar correos', time: '09:00 AM', day: 'mañana', done: false },
+            ],
+            cards: [
+                { id: 1, number: '4532 •••• •••• 8841', holder: 'María García', expiry: '09/27', network: 'VISA', isDefault: true },
+                { id: 2, number: '5214 •••• •••• 3302', holder: 'María García', expiry: '03/26', network: 'MC', isDefault: false },
+            ],
+            selectedPlan: 1,
+            chatMessages: [
+                { type: 'ia', text: '¡Hola María! ¿Cómo puedo ayudarte hoy?' }
+            ],
+            currentTab: 'pending'
+        };
+
+        // LOGIN FUNCTION
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (email && password) {
+                appState.user = { email, name: 'María García' };
+                goToScreen('dashboard');
+            } else {
+                alert('Por favor ingresa email y contraseña');
+            }
+        }
+
+        // GO TO SCREEN
+        function goToScreen(screenName) {
+            if (appState.user === null && screenName !== 'login') return;
+
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            document.querySelector(`[data-screen="${screenName}"]`).classList.add('active');
+            appState.currentScreen = screenName;
+
+            if (screenName === 'tasks') renderTasks();
+            if (screenName === 'dashboard') renderDashboard();
+            if (screenName === 'profile') { renderCards(); }
+        }
+
+        function logout() {
+            appState.user = null;
+            goToScreen('login');
+        }
+
+        // ── REMINDERS ──────────────────────────────────────────
+        function renderReminders() {
+            const pending = appState.reminders.filter(r => !r.done);
+            const done    = appState.reminders.filter(r =>  r.done);
+            const badgeMap = { hoy: 'badge-hoy', mañana: 'badge-mañana', semana: 'badge-semana' };
+            const badgeLabel = { hoy: 'Hoy', mañana: 'Mañana', semana: 'Esta semana' };
+
+            function renderGroup(list) {
+                return list.map(r => `
+                    <div class="reminder-item ${r.done ? 'done' : ''}" id="rem-${r.id}">
+                        <div class="reminder-bell">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="${r.done ? 'var(--secondary)' : 'var(--accent)'}" stroke-width="1.5" stroke-linecap="round" width="16" height="16">
+                                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+                            </svg>
+                        </div>
+                        <div class="reminder-info">
+                            <div class="reminder-title">${r.title}</div>
+                            <div class="reminder-time">${r.time} · <span class="reminder-badge ${badgeMap[r.day]}">${badgeLabel[r.day]}</span></div>
+                        </div>
+                        <button class="reminder-check-btn" onclick="toggleReminder(${r.id})">${r.done ? '✓' : ''}</button>
+                    </div>`).join('');
+            }
+
+            let html = '';
+            if (pending.length > 0) {
+                html += `<div class="reminders-group-title">Pendientes (${pending.length})</div>` + renderGroup(pending);
+            }
+            if (done.length > 0) {
+                html += `<div class="reminders-group-title">Completados</div>` + renderGroup(done);
+            }
+            if (appState.reminders.length === 0) {
+                html = '<div style="text-align:center;padding:40px 20px;color:var(--text-gray);">No hay recordatorios</div>';
+            }
+            document.getElementById('remindersList').innerHTML = html;
+            const el = document.getElementById('reminderCount');
+            if (el) el.textContent = pending.length;
+        }
+
+        function toggleReminderForm() {
+            const form = document.getElementById('reminderAddForm');
+            form.classList.toggle('open');
+        }
+
+        function addReminder() {
+            const title = document.getElementById('reminderTitle').value.trim();
+            const time  = document.getElementById('reminderTime').value;
+            const day   = document.getElementById('reminderDay').value;
+            if (!title) return;
+            const newId = Date.now();
+            appState.reminders.unshift({ id: newId, title, time, day, done: false });
+            document.getElementById('reminderTitle').value = '';
+            document.getElementById('reminderAddForm').classList.remove('open');
+            renderReminders();
+        }
+
+        function toggleReminder(id) {
+            const r = appState.reminders.find(r => r.id === id);
+            if (r) { r.done = !r.done; renderReminders(); }
+        }
+
+        // ── PLANS ──────────────────────────────────────────────
+        function selectPlan(index) {
+            document.querySelectorAll('.plan-card').forEach((el, i) => {
+                el.classList.toggle('selected', i === index);
+            });
+            const btn = document.getElementById('btnChangePlan');
+            if (index === appState.selectedPlan) {
+                btn.textContent = 'Plan actual'; btn.disabled = true;
+            } else {
+                const names = ['Básico', 'Pro', 'Business'];
+                btn.textContent = `Cambiar a ${names[index]}`; btn.disabled = false;
+            }
+        }
+
+        function changePlan() {
+            const selected = document.querySelectorAll('.plan-card');
+            let newIndex = -1;
+            selected.forEach((el, i) => { if (el.classList.contains('selected')) newIndex = i; });
+            if (newIndex === -1 || newIndex === appState.selectedPlan) return;
+            appState.selectedPlan = newIndex;
+            const names = ['Básico', 'Pro', 'Business'];
+            const btn = document.getElementById('btnChangePlan');
+            btn.textContent = 'Plan actual'; btn.disabled = true;
+            alert(`✅ Plan cambiado a ${names[newIndex]} exitosamente`);
+        }
+
+        // ── CARDS ──────────────────────────────────────────────
+        function renderCards() {
+            const networkColors = { VISA: '#1a1f71', MC: '#eb001b' };
+            let html = appState.cards.map(card => `
+                <div class="credit-card ${card.isDefault ? 'default-card' : ''}" onclick="selectCard(${card.id})">
+                    ${card.isDefault ? '<div class="card-default-badge">Principal</div>' : ''}
+                    <div class="card-chip"></div>
+                    <div class="card-number">${card.number}</div>
+                    <div class="card-bottom">
+                        <div>
+                            <div class="card-holder">Titular</div>
+                            <div class="card-holder-name">${card.holder}</div>
+                        </div>
+                        <div>
+                            <div class="card-expiry-label">Vence</div>
+                            <div class="card-expiry">${card.expiry}</div>
+                        </div>
+                        <div class="card-network">${card.network}</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    ${!card.isDefault ? `<button class="btn-card-action" onclick="setDefaultCard(${card.id})">⭐ Principal</button>` : ''}
+                    <button class="btn-card-action danger" onclick="removeCard(${card.id})">🗑 Eliminar</button>
+                </div>`).join('');
+            document.getElementById('cardsList').innerHTML = html;
+        }
+
+        function selectCard(id) {
+            document.querySelectorAll('.credit-card').forEach(el => el.classList.remove('selected-card'));
+            const cards = document.querySelectorAll('.credit-card');
+            appState.cards.forEach((card, i) => { if (card.id === id) cards[i].classList.add('selected-card'); });
+        }
+
+        function setDefaultCard(id) {
+            appState.cards.forEach(c => c.isDefault = (c.id === id));
+            renderCards();
+        }
+
+        function removeCard(id) {
+            if (appState.cards.length <= 1) { alert('Debes tener al menos un método de pago'); return; }
+            appState.cards = appState.cards.filter(c => c.id !== id);
+            if (!appState.cards.some(c => c.isDefault)) appState.cards[0].isDefault = true;
+            renderCards();
+        }
+
+        function toggleAddCardForm() {
+            document.getElementById('addCardForm').classList.toggle('open');
+        }
+
+        function formatCardNumber(input) {
+            let val = input.value.replace(/\D/g, '').substring(0, 16);
+            input.value = val.replace(/(.{4})/g, '$1 ').trim();
+        }
+
+        function formatExpiry(input) {
+            let val = input.value.replace(/\D/g, '').substring(0, 4);
+            if (val.length >= 3) val = val.substring(0, 2) + '/' + val.substring(2);
+            input.value = val;
+        }
+
+        function saveCard() {
+            const num  = document.getElementById('newCardNumber').value.trim();
+            const exp  = document.getElementById('newCardExpiry').value.trim();
+            const name = document.getElementById('newCardName').value.trim();
+            if (!num || !exp || !name) { alert('Por favor completa todos los campos'); return; }
+            const last4 = num.replace(/\s/g, '').slice(-4);
+            const network = num.startsWith('4') ? 'VISA' : 'MC';
+            appState.cards.push({ id: Date.now(), number: `•••• •••• •••• ${last4}`, holder: name.toUpperCase(), expiry: exp, network, isDefault: false });
+            document.getElementById('newCardNumber').value = '';
+            document.getElementById('newCardExpiry').value = '';
+            document.getElementById('newCardCVV').value = '';
+            document.getElementById('newCardName').value = '';
+            document.getElementById('addCardForm').classList.remove('open');
+            renderCards();
+        }
+
+        // LOGIN EVENT LISTENERS
+        document.getElementById('btnLogin').addEventListener('click', handleLogin);
+        document.getElementById('loginPassword').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        // UPDATE TIME
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // DASHBOARD
+        function renderDashboard() {
+            // Reminder card — próximo pendiente
+            const nextReminder = appState.reminders.filter(r => !r.done)[0];
+            const reminderEl = document.getElementById('dashboardReminder');
+            if (reminderEl) {
+                const dayLabel = { hoy: 'Hoy', mañana: 'Mañana', semana: 'Esta semana' };
+                if (nextReminder) {
+                    reminderEl.innerHTML = `
+                        <div class="reminder-widget">
+                            <div class="reminder-widget-top">
+                                <div class="reminder-widget-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" width="20" height="20">
+                                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+                                    </svg>
+                                </div>
+                                <div class="reminder-widget-body">
+                                    <div class="reminder-widget-label">Próximo recordatorio</div>
+                                    <div class="reminder-widget-title">${nextReminder.title}</div>
+                                </div>
+                            </div>
+                            <div class="reminder-widget-bottom">
+                                <div class="reminder-widget-time-block">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                    <span class="reminder-widget-time">${nextReminder.time}</span>
+                                    <span class="reminder-widget-badge">${dayLabel[nextReminder.day] || nextReminder.day}</span>
+                                </div>
+                                <button class="reminder-widget-done-btn" onclick="markReminderDone(${nextReminder.id})">✓ Listo</button>
+                            </div>
+                        </div>`;
+                } else {
+                    reminderEl.innerHTML = `<div class="reminder-widget-empty">🎉 Sin recordatorios pendientes</div>`;
+                }
+            }
+
+            // Tasks list
+            const tasks = appState.tasks.filter(t => !t.completed).slice(0, 3);
+            let html = '';
+            tasks.forEach(task => {
+                html += `<div class="task-item" onclick="toggleTask(${task.id})">
+                    <div class="task-checkbox ${task.completed ? 'checked' : ''}">
+                        ${task.completed ? '✓' : ''}
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">${task.date} <span class="task-priority priority-${task.priority}">${task.priority.toUpperCase()}</span></div>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('dashboardTasks').innerHTML = html;
+            document.getElementById('taskCount').textContent = appState.tasks.filter(t => !t.completed).length;
+        }
+
+        function markReminderDone(id) {
+            const r = appState.reminders.find(r => r.id === id);
+            if (r) { r.done = true; renderDashboard(); }
+        }
+
+        // TASKS
+        function renderTasks() {
+            let tasks = appState.currentTab === 'pending' 
+                ? appState.tasks.filter(t => !t.completed)
+                : appState.tasks.filter(t => t.completed);
+
+            let html = '';
+            if (tasks.length === 0) {
+                html = '<div style="text-align: center; padding: 40px 20px; color: var(--text-gray);"><p>No hay tareas</p></div>';
+            } else {
+                tasks.forEach(task => {
+                    html += `<div class="task-item ${task.completed ? 'completed' : ''}" onclick="toggleTask(${task.id})">
+                        <div class="task-checkbox ${task.completed ? 'checked' : ''}">
+                            ${task.completed ? '✓' : ''}
+                        </div>
+                        <div class="task-content">
+                            <div class="task-title" style="${task.completed ? 'text-decoration: line-through; color: var(--text-gray);' : ''}">${task.title}</div>
+                            <div class="task-meta">${task.date} <span class="task-priority priority-${task.priority}">${task.priority.toUpperCase()}</span></div>
+                        </div>
+                    </div>`;
+                });
+            }
+            document.getElementById('tasksList').innerHTML = html;
+        }
+
+        function toggleTask(taskId) {
+            const task = appState.tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+                renderDashboard();
+            }
+        }
+
+        function switchTab(tab) {
+            appState.currentTab = tab;
+            document.querySelectorAll('[class*="tab-"]').forEach(el => el.classList.remove('active'));
+            document.querySelector('.tab-' + tab).classList.add('active');
+            renderTasks();
+        }
+
+        // CHAT
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            appState.chatMessages.push({ type: 'user', text: message });
+            renderChat();
+            input.value = '';
+
+            setTimeout(() => {
+                appState.chatMessages.push({ type: 'ia', text: '✅ Entendido. ¿Algo más?' });
+                renderChat();
+            }, 500);
+        }
+
+        function renderChat() {
+            let html = '';
+            appState.chatMessages.forEach(msg => {
+                if (msg.type === 'user') {
+                    html += `<div class="message user"><div class="message-bubble">${msg.text}</div></div>`;
+                } else {
+                    html += `<div class="message ia"><div class="message-bubble">${msg.text}</div></div>`;
+                }
+            });
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = html;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function quickAction(action) {
+            document.getElementById('chatInput').value = action;
+            document.getElementById('chatInput').focus();
+        }
+
+        // INITIALIZE
+        renderChat();
+        renderDashboard();
+        document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).charAt(0).toUpperCase() + new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).slice(1);
+    </script>
+</body>
+</html>
