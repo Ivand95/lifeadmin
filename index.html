@@ -955,6 +955,105 @@
             background: rgba(100, 116, 139, 0.3);
             border-radius: 3px;
         }
+        /* DARK MODE */
+        .dark-mode { --bg-light: #0f172a; --bg-white: #1e293b; --text-dark: #f1f5f9; --text-gray: #94a3b8; --border: #334155; }
+        .dark-mode body { background: linear-gradient(135deg, #0a0f1e 0%, #0f172a 100%); }
+        .dark-mode .app-container { background: #1e293b; }
+        .dark-mode .status-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%); }
+        .dark-mode .dashboard-content { background: #0f172a; }
+        .dark-mode .stat-card, .dark-mode .task-item, .dark-mode .message.ia .message-bubble { background: #1e293b; }
+        .dark-mode .bottom-nav { background: #1e293b; border-top-color: #334155; }
+        .dark-mode .profile-content { background: #0f172a; }
+        .dark-mode .profile-menu-item { background: #1e293b; }
+        .dark-mode .sub-screen-content { background: #0f172a; }
+        .dark-mode .security-menu-item { background: #1e293b; }
+        .dark-mode .pw-input, .dark-mode .card-input, .dark-mode .reminder-input { background: #1e293b; border-color: #334155; color: #f1f5f9; }
+        .dark-mode .plan-card { border-color: #334155; background: #1e293b; }
+        .dark-mode .plan-card.selected { background: rgba(99,102,241,0.15); }
+        .dark-mode .subscription-section, .dark-mode .cards-section { background: #1e293b; }
+        .dark-mode .credit-card { filter: brightness(0.9); }
+        .dark-mode .quick-actions { background: #1e293b; border-bottom-color: #334155; }
+        .dark-mode .chat-input-area { background: #1e293b; border-top-color: #334155; }
+        .dark-mode .chat-input-wrapper { background: #0f172a; border-color: #334155; }
+        .dark-mode .chat-input { color: #f1f5f9; }
+        .dark-mode .tab-pending, .dark-mode .tab-completed { background: #1e293b; color: #94a3b8; }
+
+        /* DARK TOGGLE */
+        .dark-toggle {
+            width: 42px; height: 24px; border-radius: 12px;
+            background: var(--border); position: relative;
+            cursor: pointer; transition: background 0.3s; flex-shrink: 0;
+        }
+        .dark-toggle.on { background: var(--primary); }
+        .dark-toggle-knob {
+            position: absolute; top: 3px; left: 3px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: white; transition: transform 0.3s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .dark-toggle.on .dark-toggle-knob { transform: translateX(18px); }
+
+        /* SUB-SCREENS (security, cards, subscription, password) */
+        .sub-screen-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white; padding: 16px;
+            display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+        }
+        .sub-screen-back {
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+        }
+        .sub-screen-header h1 { font-size: 1.1rem; font-weight: 700; }
+        .sub-screen-content { flex: 1; overflow-y: auto; padding: 16px; background: var(--bg-light); }
+
+        .security-menu-item {
+            background: white; border-radius: 12px; padding: 14px;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transition: all 0.2s;
+        }
+        .security-menu-item:hover { transform: translateX(3px); }
+        .security-menu-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .security-menu-text { flex: 1; }
+        .security-menu-label { font-size: 0.88rem; font-weight: 700; color: var(--text-dark); }
+        .security-menu-sub { font-size: 0.73rem; color: var(--text-gray); margin-top: 2px; }
+
+        /* PASSWORD FORM */
+        .pw-form { display: flex; flex-direction: column; gap: 10px; }
+        .pw-label { font-size: 0.75rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 2px; }
+        .pw-input {
+            width: 100%; border: 1px solid var(--border); border-radius: 10px;
+            padding: 11px 13px; font-size: 0.87rem; outline: none;
+            font-family: inherit; color: var(--text-dark); background: white;
+            transition: border-color 0.2s;
+        }
+        .pw-input:focus { border-color: var(--primary); }
+        .pw-strength { height: 4px; border-radius: 2px; margin-top: 4px; background: var(--border); }
+        .pw-strength-bar { height: 100%; border-radius: 2px; transition: all 0.3s; width: 0; }
+        .btn-save-pw {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 10px; padding: 12px;
+            font-weight: 700; font-size: 0.88rem; cursor: pointer; margin-top: 4px;
+        }
+
+        /* SUBSCRIPTION SUB-SCREEN */
+        .sub-plan-badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 14px; padding: 16px; color: white; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .sub-plan-badge-icon { font-size: 1.8rem; }
+        .sub-plan-badge-info { flex: 1; }
+        .sub-plan-badge-name { font-size: 1rem; font-weight: 800; }
+        .sub-plan-badge-price { font-size: 0.8rem; opacity: 0.85; margin-top: 2px; }
+        .sub-plan-badge-tag {
+            background: rgba(255,255,255,0.2); font-size: 0.62rem; font-weight: 700;
+            padding: 3px 8px; border-radius: 20px; text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
@@ -1128,11 +1227,11 @@
                     <div class="profile-avatar-section">
                         <div class="profile-avatar">M</div>
                         <div class="profile-name">María García</div>
-                        <div class="profile-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aac7cbd8c3cbeacfd2cbc7dac6cf84c9c5c7">[email&#160;protected]</a></div>
+                        <div class="profile-email">maria@example.com</div>
                     </div>
 
                     <div class="profile-section-title">Cuenta</div>
-                    <div class="profile-menu-item">
+                    <div class="profile-menu-item" onclick="goToScreen('personal-info')">
                         <div class="profile-menu-icon" style="background: rgba(99,102,241,0.1); color: var(--primary);">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z"/></svg>
                         </div>
@@ -1142,19 +1241,19 @@
                         </div>
                         <div class="profile-menu-arrow">›</div>
                     </div>
-                    <div class="profile-menu-item">
+                    <div class="profile-menu-item" onclick="goToScreen('security')">
                         <div class="profile-menu-icon" style="background: rgba(16,185,129,0.1); color: var(--secondary);">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                         </div>
                         <div class="profile-menu-text">
                             <div class="profile-menu-label">Seguridad</div>
-                            <div class="profile-menu-sub">Contraseña y acceso</div>
+                            <div class="profile-menu-sub">Contraseña, tarjetas y suscripción</div>
                         </div>
                         <div class="profile-menu-arrow">›</div>
                     </div>
 
                     <div class="profile-section-title">Preferencias</div>
-                    <div class="profile-menu-item">
+                    <div class="profile-menu-item" onclick="goToScreen('notifications-pref')">
                         <div class="profile-menu-icon" style="background: rgba(245,158,11,0.1); color: var(--accent);">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
                         </div>
@@ -1164,15 +1263,17 @@
                         </div>
                         <div class="profile-menu-arrow">›</div>
                     </div>
-                    <div class="profile-menu-item">
+                    <div class="profile-menu-item" onclick="toggleDarkMode()">
                         <div class="profile-menu-icon" style="background: rgba(99,102,241,0.1); color: var(--primary);">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 3V1m0 22v-2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                         </div>
                         <div class="profile-menu-text">
-                            <div class="profile-menu-label">Apariencia</div>
-                            <div class="profile-menu-sub">Tema claro / oscuro</div>
+                            <div class="profile-menu-label">Modo oscuro</div>
+                            <div class="profile-menu-sub" id="darkModeStatus">Desactivado</div>
                         </div>
-                        <div class="profile-menu-arrow">›</div>
+                        <div class="dark-toggle" id="darkToggle">
+                            <div class="dark-toggle-knob"></div>
+                        </div>
                     </div>
 
                     <div class="profile-section-title">Soporte</div>
@@ -1191,75 +1292,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
                         <span>Cerrar sesión</span>
                     </div>
-
-                    <!-- SUBSCRIPTION SECTION -->
-                    <div class="profile-section-title" style="margin-top:20px;">Plan de suscripción</div>
-                    <div class="subscription-section">
-                        <div class="subscription-header-row">
-                            <div class="subscription-title-block">
-                                <div class="subscription-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                </div>
-                                <div class="subscription-label">Plan activo</div>
-                            </div>
-                            <div class="subscription-active-badge">● Activo</div>
-                        </div>
-                        <div class="plan-cards" id="planCards">
-                            <div class="plan-card" onclick="selectPlan(0)" id="plan-0">
-                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
-                                <div class="plan-info">
-                                    <div class="plan-name">Básico</div>
-                                    <div class="plan-desc">5 tareas · 3 recordatorios</div>
-                                </div>
-                                <div class="plan-price">Gratis</div>
-                            </div>
-                            <div class="plan-card selected" onclick="selectPlan(1)" id="plan-1">
-                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
-                                <div class="plan-info">
-                                    <div class="plan-name">Pro <span class="plan-popular">Popular</span></div>
-                                    <div class="plan-desc">Ilimitado · IA incluida</div>
-                                </div>
-                                <div class="plan-price">$9.99/mes</div>
-                            </div>
-                            <div class="plan-card" onclick="selectPlan(2)" id="plan-2">
-                                <div class="plan-radio"><div class="plan-radio-dot"></div></div>
-                                <div class="plan-info">
-                                    <div class="plan-name">Business</div>
-                                    <div class="plan-desc">Equipos · Analytics</div>
-                                </div>
-                                <div class="plan-price">$24.99/mes</div>
-                            </div>
-                        </div>
-                        <button class="btn-change-plan" id="btnChangePlan" onclick="changePlan()" disabled>Plan actual</button>
-                    </div>
-
-                    <!-- CARDS SECTION -->
-                    <div class="profile-section-title">Métodos de pago</div>
-                    <div class="cards-section">
-                        <div class="cards-section-header">
-                            <div class="cards-title-block">
-                                <div class="cards-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-                                </div>
-                                <div class="cards-label">Mis tarjetas</div>
-                            </div>
-                            <button class="btn-add-card" onclick="toggleAddCardForm()">+ Agregar</button>
-                        </div>
-                        <div id="cardsList"></div>
-                        <div class="add-card-form" id="addCardForm">
-                            <input class="card-input" id="newCardNumber" placeholder="Número de tarjeta" maxlength="19" oninput="formatCardNumber(this)">
-                            <div class="card-input-row">
-                                <input class="card-input" id="newCardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)">
-                                <input class="card-input" id="newCardCVV" placeholder="CVV" maxlength="3" type="password">
-                            </div>
-                            <input class="card-input" id="newCardName" placeholder="Nombre en la tarjeta">
-                            <div class="card-input-row">
-                                <button class="btn-cancel-card" onclick="toggleAddCardForm()">Cancelar</button>
-                                <button class="btn-save-card" onclick="saveCard()">Guardar tarjeta</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div><!-- /profile-content -->
                 <div class="bottom-nav">
                     <div class="nav-item" onclick="goToScreen('dashboard')">
                         <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
@@ -1273,20 +1306,229 @@
                         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                         <span>Chat</span>
                     </div>
-                    <div class="nav-item" onclick="goToScreen('chat')">
-                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-                        <span>Chat</span>
-                    </div>
                     <div class="nav-item active" onclick="goToScreen('profile')">
                         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                         <span>Perfil</span>
                     </div>
                 </div>
             </div>
+            <!-- SECURITY SUB-SCREEN -->
+            <div class="screen" data-screen="security">
+                <div class="sub-screen-header">
+                    <button class="sub-screen-back" onclick="goToScreen('profile')">‹</button>
+                    <h1>Seguridad</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div class="security-menu-item" onclick="goToScreen('change-password')">
+                        <div class="security-menu-icon" style="background: rgba(99,102,241,0.1);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </div>
+                        <div class="security-menu-text">
+                            <div class="security-menu-label">Cambiar contraseña</div>
+                            <div class="security-menu-sub">Actualiza tu contraseña de acceso</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+                    <div class="security-menu-item" onclick="goToScreen('subscription-screen')">
+                        <div class="security-menu-icon" style="background: rgba(245,158,11,0.1);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <div class="security-menu-text">
+                            <div class="security-menu-label">Plan de suscripción</div>
+                            <div class="security-menu-sub">Administra tu plan actual</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+                    <div class="security-menu-item" onclick="goToScreen('cards-screen')">
+                        <div class="security-menu-icon" style="background: rgba(16,185,129,0.1);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round" width="20" height="20"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                        </div>
+                        <div class="security-menu-text">
+                            <div class="security-menu-label">Métodos de pago</div>
+                            <div class="security-menu-sub">Tarjetas asociadas a tu cuenta</div>
+                        </div>
+                        <div class="profile-menu-arrow">›</div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
+
+            <!-- CHANGE PASSWORD SUB-SCREEN -->
+            <div class="screen" data-screen="change-password">
+                <div class="sub-screen-header" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+                    <button class="sub-screen-back" onclick="goToScreen('security')">‹</button>
+                    <h1>Cambiar contraseña</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div class="pw-form">
+                        <div>
+                            <div class="pw-label">Contraseña actual</div>
+                            <input class="pw-input" type="password" id="pwCurrent" placeholder="••••••••">
+                        </div>
+                        <div>
+                            <div class="pw-label">Nueva contraseña</div>
+                            <input class="pw-input" type="password" id="pwNew" placeholder="••••••••" oninput="checkPwStrength(this.value)">
+                            <div class="pw-strength"><div class="pw-strength-bar" id="pwStrengthBar"></div></div>
+                            <div style="font-size:0.7rem; color:var(--text-gray); margin-top:4px;" id="pwStrengthLabel">Escribe tu nueva contraseña</div>
+                        </div>
+                        <div>
+                            <div class="pw-label">Confirmar contraseña</div>
+                            <input class="pw-input" type="password" id="pwConfirm" placeholder="••••••••">
+                        </div>
+                        <button class="btn-save-pw" onclick="savePassword()">Guardar contraseña</button>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
+
+            <!-- SUBSCRIPTION SUB-SCREEN -->
+            <div class="screen" data-screen="subscription-screen">
+                <div class="sub-screen-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <button class="sub-screen-back" onclick="goToScreen('security')">‹</button>
+                    <h1>Plan de suscripción</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div class="sub-plan-badge">
+                        <div class="sub-plan-badge-icon">⭐</div>
+                        <div class="sub-plan-badge-info">
+                            <div class="sub-plan-badge-name" id="currentPlanName">Plan Pro</div>
+                            <div class="sub-plan-badge-price">$9.99 / mes · Renovación automática</div>
+                        </div>
+                        <div class="sub-plan-badge-tag">Activo</div>
+                    </div>
+                    <div class="plan-cards" id="planCards">
+                        <div class="plan-card" onclick="selectPlan(0)" id="plan-0">
+                            <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                            <div class="plan-info">
+                                <div class="plan-name">Básico</div>
+                                <div class="plan-desc">5 tareas · 3 recordatorios</div>
+                            </div>
+                            <div class="plan-price">Gratis</div>
+                        </div>
+                        <div class="plan-card selected" onclick="selectPlan(1)" id="plan-1">
+                            <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                            <div class="plan-info">
+                                <div class="plan-name">Pro <span class="plan-popular">Popular</span></div>
+                                <div class="plan-desc">Ilimitado · IA incluida</div>
+                            </div>
+                            <div class="plan-price">$9.99/mes</div>
+                        </div>
+                        <div class="plan-card" onclick="selectPlan(2)" id="plan-2">
+                            <div class="plan-radio"><div class="plan-radio-dot"></div></div>
+                            <div class="plan-info">
+                                <div class="plan-name">Business</div>
+                                <div class="plan-desc">Equipos · Analytics</div>
+                            </div>
+                            <div class="plan-price">$24.99/mes</div>
+                        </div>
+                    </div>
+                    <button class="btn-change-plan" id="btnChangePlan" onclick="changePlan()" disabled>Plan actual</button>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
+
+            <!-- CARDS SUB-SCREEN -->
+            <div class="screen" data-screen="cards-screen">
+                <div class="sub-screen-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <button class="sub-screen-back" onclick="goToScreen('security')">‹</button>
+                    <h1>Métodos de pago</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+                        <button class="btn-add-card" onclick="toggleAddCardForm()">+ Agregar tarjeta</button>
+                    </div>
+                    <div id="cardsList"></div>
+                    <div class="add-card-form" id="addCardForm">
+                        <input class="card-input" id="newCardNumber" placeholder="Número de tarjeta" maxlength="19" oninput="formatCardNumber(this)">
+                        <div class="card-input-row">
+                            <input class="card-input" id="newCardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)">
+                            <input class="card-input" id="newCardCVV" placeholder="CVV" maxlength="3" type="password">
+                        </div>
+                        <input class="card-input" id="newCardName" placeholder="Nombre en la tarjeta">
+                        <div class="card-input-row">
+                            <button class="btn-cancel-card" onclick="toggleAddCardForm()">Cancelar</button>
+                            <button class="btn-save-card" onclick="saveCard()">Guardar tarjeta</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
+            <!-- PERSONAL INFO SUB-SCREEN -->
+            <div class="screen" data-screen="personal-info">
+                <div class="sub-screen-header" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+                    <button class="sub-screen-back" onclick="goToScreen('profile')">‹</button>
+                    <h1>Información personal</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div class="pw-form">
+                        <div>
+                            <div class="pw-label">Nombre completo</div>
+                            <input class="pw-input" type="text" value="María García" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <div class="pw-label">Correo electrónico</div>
+                            <input class="pw-input" type="email" value="maria@example.com" placeholder="tu@email.com">
+                        </div>
+                        <div>
+                            <div class="pw-label">Teléfono</div>
+                            <input class="pw-input" type="tel" value="+1 (809) 555-0123" placeholder="+1 (000) 000-0000">
+                        </div>
+                        <div>
+                            <div class="pw-label">Ciudad</div>
+                            <input class="pw-input" type="text" value="Santo Domingo" placeholder="Tu ciudad">
+                        </div>
+                        <button class="btn-save-pw" onclick="alert('✅ Información actualizada'); goToScreen('profile');">Guardar cambios</button>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
+
+            <!-- NOTIFICATIONS PREF SUB-SCREEN -->
+            <div class="screen" data-screen="notifications-pref">
+                <div class="sub-screen-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <button class="sub-screen-back" onclick="goToScreen('profile')">‹</button>
+                    <h1>Notificaciones</h1>
+                </div>
+                <div class="sub-screen-content">
+                    <div class="profile-section-title">Alertas</div>
+                    <div id="notifList"></div>
+                </div>
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="goToScreen('dashboard')"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Inicio</span></div>
+                    <div class="nav-item" onclick="goToScreen('tasks')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 10h6M9 14h6M9 18h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Tareas</span></div>
+                    <div class="nav-item" onclick="goToScreen('chat')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Chat</span></div>
+                    <div class="nav-item active" onclick="goToScreen('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span>Perfil</span></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // APP STATE
         let appState = {
             user: null,
@@ -1308,6 +1550,8 @@
                 { id: 2, number: '5214 •••• •••• 3302', holder: 'María García', expiry: '03/26', network: 'MC', isDefault: false },
             ],
             selectedPlan: 1,
+            darkMode: false,
+            notifs: { reminders: true, tasks: true, payments: true, news: false },
             chatMessages: [
                 { type: 'ia', text: '¡Hola María! ¿Cómo puedo ayudarte hoy?' }
             ],
@@ -1331,21 +1575,95 @@
         function goToScreen(screenName) {
             if (appState.user === null && screenName !== 'login') return;
 
+            const target = document.querySelector(`[data-screen="${screenName}"]`);
+            if (!target) return; // pantalla no implementada aún
+
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
 
-            document.querySelector(`[data-screen="${screenName}"]`).classList.add('active');
+            target.classList.add('active');
             appState.currentScreen = screenName;
 
             if (screenName === 'tasks') renderTasks();
             if (screenName === 'dashboard') renderDashboard();
-            if (screenName === 'profile') { renderCards(); }
+            if (screenName === 'cards-screen') renderCards();
+            if (screenName === 'notifications-pref') renderNotifications();
         }
 
         function logout() {
             appState.user = null;
             goToScreen('login');
+        }
+
+        // ── NOTIFICATIONS ─────────────────────────────────────────
+        function renderNotifications() {
+            const items = [
+                { key: 'reminders', label: 'Recordatorios', sub: 'Avisos de tareas pendientes' },
+                { key: 'tasks',     label: 'Tareas vencidas', sub: 'Alertas cuando vence una tarea' },
+                { key: 'payments',  label: 'Pagos', sub: 'Confirmaciones y cobros' },
+                { key: 'news',      label: 'Novedades', sub: 'Actualizaciones de la app' },
+            ];
+            const el = document.getElementById('notifList');
+            if (!el) return;
+            el.innerHTML = items.map(item => `
+                <div class="profile-menu-item" style="margin-bottom:8px;" onclick="toggleNotif('${item.key}')">
+                    <div class="profile-menu-text">
+                        <div class="profile-menu-label">${item.label}</div>
+                        <div class="profile-menu-sub">${item.sub}</div>
+                    </div>
+                    <div class="dark-toggle ${appState.notifs[item.key] ? 'on' : ''}" id="notif-${item.key}">
+                        <div class="dark-toggle-knob"></div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function toggleNotif(key) {
+            appState.notifs[key] = !appState.notifs[key];
+            const el = document.getElementById('notif-' + key);
+            if (el) el.classList.toggle('on', appState.notifs[key]);
+        }
+        function toggleDarkMode() {
+            appState.darkMode = !appState.darkMode;
+            document.documentElement.classList.toggle('dark-mode', appState.darkMode);
+            const toggle = document.getElementById('darkToggle');
+            const status = document.getElementById('darkModeStatus');
+            if (toggle) toggle.classList.toggle('on', appState.darkMode);
+            if (status) status.textContent = appState.darkMode ? 'Activado' : 'Desactivado';
+        }
+
+        // ── PASSWORD ─────────────────────────────────────────────
+        function checkPwStrength(val) {
+            const bar = document.getElementById('pwStrengthBar');
+            const lbl = document.getElementById('pwStrengthLabel');
+            if (!bar) return;
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            const colors = ['#ef4444','#f59e0b','#10b981','#6366f1'];
+            const labels = ['Muy débil','Regular','Buena','Fuerte'];
+            bar.style.width = (score * 25) + '%';
+            bar.style.background = colors[score - 1] || '#e2e8f0';
+            lbl.textContent = score > 0 ? labels[score - 1] : 'Escribe tu nueva contraseña';
+            lbl.style.color = colors[score - 1] || 'var(--text-gray)';
+        }
+
+        function savePassword() {
+            const cur = document.getElementById('pwCurrent').value;
+            const nw  = document.getElementById('pwNew').value;
+            const cfm = document.getElementById('pwConfirm').value;
+            if (!cur || !nw || !cfm) { alert('Por favor completa todos los campos'); return; }
+            if (nw !== cfm) { alert('Las contraseñas no coinciden'); return; }
+            if (nw.length < 6) { alert('La contraseña debe tener al menos 6 caracteres'); return; }
+            document.getElementById('pwCurrent').value = '';
+            document.getElementById('pwNew').value = '';
+            document.getElementById('pwConfirm').value = '';
+            document.getElementById('pwStrengthBar').style.width = '0';
+            document.getElementById('pwStrengthLabel').textContent = 'Escribe tu nueva contraseña';
+            alert('✅ Contraseña actualizada exitosamente');
+            goToScreen('security');
         }
 
         // ── REMINDERS ──────────────────────────────────────────
